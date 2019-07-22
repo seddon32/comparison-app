@@ -1,0 +1,40 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'sam-app
+
+  Sample SAM Template for sam-app
+
+  '
+Globals:
+  Function:
+    Timeout: 3
+Resources:
+  CompareFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: s3://stusbucket32/44532a0cd681eae5da886a22f31f42f3
+      Handler: compare.lambda_handler
+      Runtime: python3.7
+      Events:
+        HelloWorld:
+          Type: Api
+          Properties:
+            Path: /compare
+            Method: get
+Outputs:
+  CompareApi:
+    Description: API Gateway endpoint URL for Prod stage for Compare function
+    Value:
+      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/compare/
+  CompareFunction:
+    Description: Compare Lambda Function ARN
+    Value:
+      Fn::GetAtt:
+      - CompareFunction
+      - Arn
+  CompareFunctionIamRole:
+    Description: Implicit IAM Role created for Compare function
+    Value:
+      Fn::GetAtt:
+      - CompareFunctionRole
+      - Arn
